@@ -1,0 +1,14 @@
+{
+  "appId": "com.mihir-sahu.performance-display",
+  "files": ["dist-electron", "dist-react"],
+  "mac": {
+    "target": "dmg"
+  },
+  "linux": {
+    "target": "AppImage",
+    "category": "Utility"
+  },
+  "win": {
+    "target": ["prortable", "msi"]
+  }
+}
