@@ -1,6 +1,7 @@
 {
   "appId": "com.mihir-sahu.performance-display",
   "files": ["dist-electron", "dist-react"],
+  "extraResources": ["dist-electron/preload.cjs"],
   "mac": {
     "target": "dmg"
   },
