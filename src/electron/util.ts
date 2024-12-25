@@ -16,6 +16,16 @@ export const ipcMainHandle = <Key extends keyof EventPayloadMapping>(
   });
 }
 
+export const ipcMainOn = <Key extends keyof EventPayloadMapping>(
+  key: Key, 
+  handler: (payload: EventPayloadMapping[Key]) => void,
+) => {
+  ipcMain.on(key, (event, payload) => {
+    validateEventFrame(event.senderFrame as WebFrameMain);
+    return handler(payload);
+  });
+}
+
 export const ipcWebContentsSend = <Key extends keyof EventPayloadMapping>(
   key: Key,
   webContents: WebContents,

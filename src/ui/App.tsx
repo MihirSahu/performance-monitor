@@ -29,6 +29,11 @@ function App() {
 
   return (
     <>
+      <header>
+        <button id="close" onClick={() => window.electron.sendFrameAction("CLOSE")}/>
+        <button id="minimize" onClick={() => window.electron.sendFrameAction("MINIMIZE")}/>
+        <button id="minimize" onClick={() => window.electron.sendFrameAction("MAXIMIZE")}/>
+      </header>
       <div style={{ height: 120 }}>
         <Chart data={activeUsages} maxDataPoints={10}>
         </Chart>
