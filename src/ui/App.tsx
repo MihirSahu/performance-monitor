@@ -1,16 +1,38 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import { useStatistics } from './useStatistics'
+import { Chart } from './Chart'
 
 function App() {
   const [count, setCount] = useState(0)
+  const statistics = useStatistics(10);
+  const [activeView, setActiveView] = useState<View>('Compute');
+  const cpuUsages = useMemo(() => statistics.map((stat) => stat.cpuUsage), [statistics]);
+  const ramUsages = useMemo(() => statistics.map((stat) => stat.ramUsage), [statistics]);
+  const storageUsages = useMemo(() => statistics.map((stat) => stat.storageUsage), [statistics]);
+
+  const activeUsages = useMemo(() => {
+    switch (activeView) {
+      case "Compute":
+        return cpuUsages;
+      case "Memory":
+        return ramUsages;
+      case 'Storage':
+        return storageUsages;
+    }
+  }, [activeView, cpuUsages, ramUsages, storageUsages]);
 
   useEffect(() => {
-    window.electron.subscribeStatistics(stats => console.log(stats));
-  }, [])
+    return window.electron.subscribeChangeView((view) => setActiveView(view));
+  }, []);
 
   return (
     <>
+      <div style={{ height: 120 }}>
+        <Chart data={activeUsages} maxDataPoints={10}>
+        </Chart>
+      </div>
       <div>
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
